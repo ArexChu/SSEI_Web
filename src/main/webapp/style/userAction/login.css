@@ -1,0 +1,116 @@
+﻿body{
+	    height: 100%;
+    	width: 100%;
+    	background-color: #043867;
+}
+
+.myframe-left{
+	position: absolute;
+	left:0px;
+	top:0px;
+	height: 600px;
+	width:100px;
+	background: url(../../img/login-background.jpg) repeat-x;
+
+}
+.main{
+	position: absolute;
+	left:100px;
+	height: 600px;
+	width:1000px;
+    background: url(../../img/login.jpg) no-repeat ;
+}
+.myframe-right{
+	position:absolute;
+	left:1099px;
+	height: 600px;
+	background: url(../../img/login-background.jpg) repeat-x;
+}
+#s_Log_Name {
+	position: absolute;
+	left: 445px;
+	top:250px;
+	height: 25px;
+	width: 170px;
+}
+#s_Log_Name_Error{
+	font-size: 6px;
+	color: red;
+	position: absolute;
+	left: 445px;
+	top:277px;
+
+}
+
+#s_Log_Pas {
+	position: absolute;
+	left: 445px;
+	top:295px;
+	height: 25px;
+	width: 170px;
+}
+
+#s_Log_Pas_Error{
+	font-size: 6px;
+	color: red;
+	position: absolute;
+	left: 445px;
+	top:323px;
+
+}
+
+#s_VerifyCode {
+	position: absolute;
+	left: 445px;
+	top:342px;
+	height: 25px;
+	width: 80px;
+}
+
+#s_VerifyCode_Error{
+	font-size: 6px;
+	color: red;
+	position: absolute;
+	left: 445px;
+	top:370px;
+
+}
+#submit{
+	height: 33px;
+	width:82px;
+	background-image: url(../../img/submit.jpg);
+	background-repeat: repeat-x;
+	position: absolute;
+	left: 465px;
+	top:389px;
+	border-radius: 7px;
+	
+}
+#submit:HOVER{
+	background-color: #24526F；
+	
+	
+}
+.btn-large {
+font-size: 13px;
+padding: 0px 0px;
+font-weight: bold;
+font-family: serif;
+font
+}
+#imgVerifyCode{
+	position: absolute;
+	left: 535px;
+	top:342px;
+	height: 25px;
+	width: 80px;
+	border-radius: 4px;
+}
+#msg{
+	font-size: 6px;
+	color: red;
+	position: absolute;
+	left: 445px;
+	top:233px;
+
+}

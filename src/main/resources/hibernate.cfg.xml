@@ -1,0 +1,34 @@
+<!DOCTYPE hibernate-configuration PUBLIC
+	"-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+	"http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+
+<hibernate-configuration>
+
+<session-factory>
+
+	<!-- 1，数据库连接信息 -->
+	<property name="dialect">
+		org.hibernate.dialect.MySQL5InnoDBDialect
+	</property>
+	<!-- 
+		<property name="connection.url">jdbc:mysql:///ssei</property>
+		<property name="connection.driver_class">com.jdbc.mysql.Driver</property>
+		<property name="connection.username">root</property>
+		<property name="connection.password">admin</property>
+	-->
+
+	<!-- 2，其他配置 -->
+	<property name="show_sql">false</property>
+	<property name="format_sql">true</property>
+	<property name="hbm2ddl.auto">update</property>
+	<property name="default_schema">ssei</property>
+	
+		
+	<!-- 3，导入映射文件,在spring中使用了 packagesToScan，不用手动导入
+	<mapping resource="cn/itcast/oa/domain/User.hbm.xml" />
+	<mapping class="cn.ecust.ssei.domain.user.User"/>
+	 -->
+	
+</session-factory>
+
+</hibernate-configuration>

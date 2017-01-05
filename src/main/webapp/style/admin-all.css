@@ -1,0 +1,328 @@
+thtml, body {
+    height: 100%;
+    width: 100%;
+}
+
+.warp {
+    height: 100%;
+    background-color: #EAF7FF; 
+}
+
+
+.top_c {
+    background: url(../img/logo.png) no-repeat #218BCE;
+    height: 97px;  
+    position: relative;
+}
+
+.top-nav {
+    position: absolute;
+    width: 348px;
+    text-align: right;
+    bottom: 20px;
+    right: 10px;
+    color: #ffffff;
+}
+
+    .top-nav a:link {
+        color: #000000;
+    }
+
+.top-menu {
+    position: absolute;
+    right: 0;
+    top: 0;
+    height: 34px;
+    background: url(../img/top-menu-bg-left.png) no-repeat;
+    padding-left: 50px;
+}
+
+    .top-menu .top-menu-nav {
+        white-space: nowrap;
+		height: 34px;
+        background: url(../img/top-menu-bg-con.png) repeat-x;
+        margin: 0;
+        padding: 0;
+    }
+
+        .top-menu .top-menu-nav li {
+            white-space: nowrap;
+            float: left;
+            font-size:13px;
+            margin: 5px 0;
+            border-right: 1px dotted #000000;
+            padding: 0px 10px 0px 22px;
+            
+        }
+
+.top-menu-nav .kidc {
+    background: #E8F5FC;
+    /*������Ԫ�����Բ�Ǳ߿�*/
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+    z-index: 9999;
+    position: absolute;
+    padding: 5px 0;
+    margin-left: -10px;
+    margin-top: 9px;
+    border: 1px solid #afbbd5;
+    display: none ;
+}
+
+    .top-menu-nav .kidc li {
+        float: none;
+        background: none;
+        border: none;
+        padding: 2px 20px;
+        font-size: 12px;
+    }
+
+        .top-menu-nav .kidc li:hover {
+            background: #3a6aee;
+            color: #FFF;
+        }
+
+        .top-menu-nav .kidc li a:hover {
+            background: #3a6aee;
+            color: #FFF;
+            text-decoration: none;
+        }
+
+
+.left_c {
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    background: #d1d8e2;
+    width: 235px;
+    position: absolute;
+    top: 105px;
+    left: 8px;
+    overflow: hidden;
+    bottom: 34px;
+}
+
+    .left_c .acc {
+        position: absolute;
+        bottom: 0;
+        top: 36px;
+        width: 100%;
+        overflow: auto;
+    }
+
+    .left_c h1 {
+        border-top-left-radius: 5px;
+        border-top-right-radius: 5px;
+        color: #323d53;
+        height:40px;
+        text-indent: 15px;
+        font-size: 17px;
+        font-weight:bold;
+        line-height:33px;
+        background: #b0bbd1;
+        background: -moz-linear-gradient(top, #cfd6e9, #9da6c3);
+        background: -webkit-linear-gradient(top, #cfd6e9, #9da6c3);
+        background: -o-linear-gradient(top,#cfd6e9, #9da6c3);
+    }
+  
+    .left_c ul {
+        margin: 0;
+        padding: 0;
+        display: none;
+    }
+
+.one {
+    text-indent: 25px;
+    font-weight: bold;
+    cursor: pointer ;
+    display: block;
+    font-size:13px;
+    text-decoration: none;
+    color: #323d53;
+    padding: 4px 0;
+    border-top: 1px solid #fff;
+    border-bottom: 1px solid #949ab4;
+    background: -moz-linear-gradient(top, #e0e3f2, #bac9ec);
+    background: -webkit-linear-gradient(top, #e0e3f2, #bac9ec);
+    background: -o-linear-gradient(top,#e0e3f2, #bac9ec);
+}
+
+.left_c a.one:hover {
+    text-decoration: none;
+    color: #000000;
+    
+    border-top: 1px solid #ffffff;
+    border-bottom: 1px solid #155DB7;
+    background: -moz-linear-gradient(top, #BFC6D1, #155DB7);
+    background: -webkit-linear-gradient(top, #BFC6D1, #155DB7);
+    background: -o-linear-gradient(top,#BFC6D1, #155DB7);
+}
+
+/*
+.one-hover {
+    color: #7f031b;
+    background: #F5B201;
+    border-top: 1px solid #FEDE7B;
+    border-bottom: 1px solid #C3262D;
+    background: -moz-linear-gradient(top, #fedf7c, #2C90D3);
+    background: -webkit-linear-gradient(top, #fedf7c, #2C90D3);
+    background: -o-linear-gradient(top,#fedf7c, #2C90D3);
+}
+*/
+
+.kid li {
+    text-indent: 25px;
+    cursor: pointer;
+    padding: 4px 0;
+    background: #fefbf6;
+   /* border-bottom: 1px solid #FCE5E5;*/
+    background: -moz-linear-gradient(top, #FFFFFF, #FFFFFF);
+    background: -webkit-linear-gradient(top, #FFFFFF, #FFFFFF);
+    background: -o-linear-gradient(top,#FFFFFF, #FFFFFF);
+}
+
+    .kid li:hover {
+        color: #810026;
+        background: -moz-linear-gradient(top, #feffff, #EDF2FA);
+        background: -webkit-linear-gradient(top, #feffff, #EDF2FA);
+        background: -o-linear-gradient(top,#feffff, #EDF2FA);
+    }
+
+.kid .tip {
+    height: 0;
+    width: 8px;
+    border: 4px solid transparent;
+    border-left-color: #000;
+    display: inline-block;
+}
+
+table thead {
+    background: #efefef;
+    font-weight: bold;
+    color: #323D53;
+}
+
+    table thead tr td {
+        padding: 15px 0;
+    }
+
+.alert .tip {
+    height: 0;
+    margin: 0 8px;
+    border: 4px solid transparent;
+    border-left-color: #000;
+    display: inline-block;
+}
+
+.tip-down {
+    height: 0;
+    margin: 0 8px;
+    border: 4px solid transparent;
+    border-bottom-color: #000;
+    display: inline-block;
+}
+
+.tip-left {
+    height: 0;
+    margin: 0 8px;
+    border: 4px solid transparent;
+    border-left-color: #000;
+    display: inline-block;
+}
+
+/*�����漰���˻�����ε�ԭ��*/
+.tip-up {
+    height: 0;
+    margin: 0 8px;
+    border: 4px solid transparent;
+    border-top-color: #000;
+    display: inline-block;
+}
+
+.tip-up-red {
+    height: 0;
+    margin: 0 8px;
+    border: 4px solid transparent;
+    border-top-color: #000;
+    display: inline-block;
+}
+
+#datepicker {
+    font-family: "Vani";
+}
+
+.right_c {
+    position: relative;
+    background: #d1d8e2;
+    position: absolute;
+    bottom: 34px;
+    left: 260px;
+    top: 105px;
+
+    border-top: 1px solid #687295;
+    border-left: 1px solid #687295;
+    right: 0;
+    border-top-left-radius: 8px;
+}
+
+.nav-tip {
+    cursor: pointer;
+    width: 12px;
+    background: url(../img/nav-tip.gif) no-repeat;
+    left: -12px;
+    top: 50%;
+    height: 73px;
+    position: absolute;
+    background-position-x: 0;
+}
+
+.Conframe {
+    border-radius: 8px;
+    border: 1px solid #b3baca;
+    background: #FFFFFF;
+    position: absolute;
+    left: 268px;
+    top: 113px;
+    overflow: auto;
+    right: 8px;
+    bottom: 42px;
+    z-index: 999;
+    padding: 8px;
+}
+
+#Conframe {
+    border: none;
+    height: 100%;
+    width: 100%;
+}
+
+.table {
+    white-space: nowrap;
+}
+
+.bottom_c {
+    position: absolute;
+    bottom: 0;
+    background: #218BCE;
+    width: 100%;
+    color: #CCD8E8;
+    text-align: center;
+}
+.errorClass{
+	color:red;
+	font-size: 8px;
+	
+}
+/*查看、修改切换样式，点击查看，去掉文本框所有属性*/
+.switchState{
+	  border: none!important;
+	  outline:none;
+	  background-color: transparent!important;
+	  box-shadow:none!important;
+}
+/*修改、取消修改超链接样式*/
+#startEdit{
+	  color:blue;
+	  float:right;
+	  cursor:pointer;
+	  padding-right:10px;
+}

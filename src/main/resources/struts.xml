@@ -1,0 +1,605 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+	"-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+	"http://struts.apache.org/dtds/struts-2.3.dtd">
+
+<struts>
+	<!-- 配置为开发模式 -->
+    <constant name="struts.devMode" value="false" />
+    <!-- 把扩展名配置为action -->
+    <constant name="struts.action.extension" value="action" />
+    <!-- 把主题配置为simple -->
+    <constant name="struts.ui.theme" value="simple" />
+    <!-- 设置上传文件的大小20M -->
+    <constant name="struts.multipart.maxSize" value="20971520"/>
+    <!-- 上传文件的临时目录  -->
+    <constant name="struts.multipart.saveDir" value="/temp"/>
+	 
+	
+	   <package name="default" namespace="/" extends="json-default">
+	       
+       <interceptors>  
+    		<interceptor name="checkPrivilege" class="cn.ecust.ssei.util.filterAndInterceptor.CheckPrivilegeInterceptor"></interceptor>    		
+    		<interceptor-stack name="defaultStack">
+    			<interceptor-ref name="checkPrivilege"></interceptor-ref>
+    			<interceptor-ref name="defaultStack"></interceptor-ref>
+    		</interceptor-stack>
+    	</interceptors> 
+
+		<!-- 全局的Result配置 -->
+		<global-results>
+			<result name="loginUI">/WEB-INF/jsp/userAction/login.jsp</result>
+			<result name="noPrivilegeError">/noPrivilegeError.jsp</result>
+			<result name="toPipeDetailMaintainList" type="redirectAction">pipeDetailMaintain_list?pipeMaintainId=${pipeMaintainId}</result>
+			<result name="toVesselPeriodicalMaintainList" type="redirectAction">vesselPeriodicalMaintain_list?vesselMaintainId=${vesselMaintainId}</result>
+			<result name="toPipeOnlineMaintainList" type="redirectAction">pipeOnlineMaintain_list?pipeMaintainId=${pipeMaintainId}</result>
+			<result name="toPipeDetailMaintainDocumentList" type="redirectAction">pipeDetailMaintainDocument_list?pipeMaintainId=${pipeMaintainId}</result>
+			<result name="toPipeOnlineMaintainDocumentList" type="redirectAction">pipeOnlineMaintainDocument_list?pipeMaintainId=${pipeMaintainId}</result>
+			<result name="toPipeInstallMenuList" type="redirectAction">pipeInstall_toMenuUI?id=${installId}</result>
+			<result name="toPipeInstallDocumentMenuList" type="redirectAction">pipeInstallDocument_toFileUI?id=${installId}</result>
+			<result name="toVesselPeriodicalDocumentMenuList" type="redirectAction">vesselPeriodicalMaintainDocument_list?vesselMaintainId=${vesselMaintainId}</result>
+			<result name="toVesselAnnualMaintainList" type="redirectAction">vesselAnnualMaintain_list?vesselMaintainId=${vesselMaintainId}</result>
+			<result name="toVesselAnnualDocumentMenuList" type="redirectAction">vesselAnnualMaintainDocument_list?vesselMaintainId=${vesselMaintainId}</result>
+			<result name="toVesselCheckMaintainList" type="redirectAction">vesselCheckMaintain_list?vesselMaintainId=${vesselMaintainId}</result>
+			<result name="toVesselCheckDocumentMenuList" type="redirectAction">vesselCheckMaintainDocument_list?vesselMaintainId=${vesselMaintainId}</result>
+		</global-results>
+        
+		
+		<!-- 单位管理 -->
+		<action name="company_*" class="companyAction" method="{1}">
+			<result name="list">/WEB-INF/jsp/companyAction/list.jsp</result>
+			<result name="saveUI">/WEB-INF/jsp/companyAction/saveUI.jsp</result>
+			<result name="toList" type="redirectAction">company_list</result>
+			<result name="rule">/WEB-INF/jsp/companyAction/rules.jsp</result>
+			<result name="showPDF">/WEB-INF/jsp/companyAction/showPDF.jsp</result>
+			<result name="toRules" type="redirectAction">company_ruleUI?Id=${model.Id}</result>
+		</action>
+		
+		<!-- 人员管理 -->
+		<action name="user_*" class="userAction" method="{1}">
+			<result name="list">/WEB-INF/jsp/userAction/list.jsp</result>
+			<result name="saveUI">/WEB-INF/jsp/userAction/saveUI.jsp</result>
+			<result name="toList" type="redirectAction">user_list</result>
+			<result name="toLogout" type="redirectAction">user_logout</result>
+			<result name="toIndex" type="redirect">/index.jsp</result>
+			<result name="input">/WEB-INF/jsp/userAction/login.jsp</result>
+			<result name="password">/WEB-INF/jsp/userAction/password.jsp</result>
+		</action>
+		
+		<!-- 证书管理 -->
+		<action name="certificates_*" class="certificatesAction" method="{1}">
+			<result name="list">/WEB-INF/jsp/userAction/certificatesAction/list.jsp</result>
+			<result name="saveUI">/WEB-INF/jsp/userAction/certificatesAction/saveUI.jsp</result>
+			<result name="toList" type="redirectAction">certificates_list?userId=${userId}</result>
+		</action>
+		
+		<!-- 角色管理 -->
+		<action name="role_*" class="roleAction" method="{1}">
+			<result name="list">/WEB-INF/jsp/userAction/roleAction/list.jsp</result>
+			<result name="saveUI">/WEB-INF/jsp/userAction/roleAction/saveUI.jsp</result>
+			<result name="setPrivilegeUI">/WEB-INF/jsp/userAction/roleAction/setPrivilegeUI.jsp</result>
+			<result name="toList" type="redirectAction">role_list</result>
+		</action>
+		
+		<!-- 首页 -->
+		<action name="home" class="homeAction" method="index">
+			<result name="index">/WEB-INF/jsp/homeAction/main.jsp</result>
+		</action>
+		
+		
+		<!-- 管道基础信息管理 -->
+		<action name="pipeBasic_*" class="pipeBasicAction" method="{1}">
+			<result name="list">/WEB-INF/jsp/pipeAction/pipeBasci/list.jsp</result>
+			<result name="saveUI">/WEB-INF/jsp/pipeAction/pipeBasci/saveUI.jsp</result>
+			<result name="toList" type="redirectAction">pipeBasic_list</result>
+			<result name="toFileList">/WEB-INF/jsp/pipeAction/pipeBasci/fileList.jsp</result>
+			<result type="json" name="success"> 
+        		<param name="contentType">text/html</param> 
+      		</result> 
+		</action>
+		
+		<!-- 管道资料审查 -->
+		<action name="pipeInvestigation_*" class="pipeInvestigationAction" method="{1}"> 
+			<result name="list">/WEB-INF/jsp/pipeAction/pipeInvestigation/list.jsp</result>
+			<result name="companyUI">/WEB-INF/jsp/pipeAction/pipeInvestigation/companyUI.jsp</result>
+			<result name="pipeBasicUI" type="redirectAction">pipeInvestigation_list</result>
+			
+		</action>
+		
+		
+		<!-- 管道检验方案 -->
+		<action name="pipeScheme_*" class="pipeSchemeAction" method="{1}">
+			<result name="list">/WEB-INF/jsp/pipeAction/pipeSchemeAction/list.jsp</result>
+			<result name="listDetail">/WEB-INF/jsp/pipeAction/pipeSchemeAction/detail/list.jsp</result>
+			<result name="saveUI">/WEB-INF/jsp/pipeAction/pipeSchemeAction/saveUI.jsp</result>
+			<result name="toList" type="redirectAction">pipeScheme_list</result>
+		</action>
+		
+		<!-- 问题记载 -->
+		<action name="pipeSchemeDetail_*" class="pipeSchemeDetailAction" method="{1}">
+			<result name="listRecord">/WEB-INF/jsp/pipeAction/pipeSchemeAction/detail/listRecord.jsp</result>
+			<result name="saveUI">/WEB-INF/jsp/pipeAction/pipeSchemeAction/detail/saveUI.jsp</result>
+			<result name="listProblem">/WEB-INF/jsp/pipeAction/pipeSchemeAction/detail/listProblem.jsp</result>
+			<result name="toList" type="redirectAction">pipeScheme_listDetail</result>
+			<result name="toListRecord" type="redirectAction">pipeSchemeDetail_listRecord?basicId=${basicId}</result>
+		</action>
+		
+		<!-- 管道进度控制 -->
+		<action name="pipeProgress_*" class="pipeProgressAction" method="{1}">
+			<result name="list">/WEB-INF/jsp/pipeAction/pipeProgress/list.jsp</result>
+			<result name="toList" type="redirectAction">pipeProgress_list</result>
+		</action>
+		
+		<!-- 管道管理 -->
+		<action name="pipeMaintain_*" class="pipeMaintainAction" method="{1}">
+			<result name="list">/WEB-INF/jsp/pipeAction/pipeMaintain/list.jsp</result>
+			<result name="toList" type="redirectAction">pipeMaintain_list</result>
+		</action>
+		
+		<!-- 管道安装 -->
+		<action name="pipeInstall_*" class="pipeInstallAction" method="{1}">
+			<result name="list">/WEB-INF/jsp/pipeAction/pipeInstall/list.jsp</result>
+			<result name="saveUI">/WEB-INF/jsp/pipeAction/pipeInstall/saveUI.jsp</result>
+			<result name="listMenu">/WEB-INF/jsp/pipeAction/pipeInstall/listMenu.jsp</result>
+			<result name="toList" type="redirectAction">pipeInstall_list</result>
+			<result name="toFileList">/WEB-INF/jsp/pipeAction/pipeInstall/fileList.jsp</result>
+			<result type="json" name="success"> 
+        		<param name="contentType">text/html</param> 
+      		</result> 
+		</action>
+		
+		<!-- 监督检验结论记录 -->
+		<action name="piConclusion_*" class="piConclusionAction" method="{1}">
+			<result name="saveUI">/WEB-INF/jsp/pipeAction/pipeInstall/detail/PIConclusion.jsp</result>
+		</action>
+		
+		<!-- 工业管道基本情况记录 -->
+		<action name="piBasic_*" class="piBasicAction" method="{1}">
+			<result name="saveUI">/WEB-INF/jsp/pipeAction/pipeInstall/detail/PIBasic.jsp</result>
+		</action>
+		
+		<!-- 工作内容及工作基本情况记录 -->
+		<action name="piCheckInf_*" class="piCheckInfAction" method="{1}">
+			<result name="saveUI">/WEB-INF/jsp/pipeAction/pipeInstall/detail/PICheckInf.jsp</result>
+		</action>
+		
+		<!-- 相关单位安全质量管理行为的评价记录 -->
+		<action name="piComInf_*" class="piComInfAction" method="{1}">
+			<result name="saveUI">/WEB-INF/jsp/pipeAction/pipeInstall/detail/PIComInf.jsp</result>
+		</action>
+		
+		<!-- 遗留质量问题的处理意见记录 -->
+		<action name="piLeftProblem_*" class="piLeftProblemAction" method="{1}">
+			<result name="saveUI">/WEB-INF/jsp/pipeAction/pipeInstall/detail/PILeftProblem.jsp</result>
+		</action>
+		
+		<!-- 管道安装竣工资料审查报告记录 -->
+		<action name="pipeCompleteInf_*" class="pipeCompleteInfAction" method="{1}">
+			<result name="saveUI">/WEB-INF/jsp/pipeAction/pipeInstall/detail/PipeCompleteInf.jsp</result>
+		</action>
+		
+		<!-- 压力管道底片复审记录表 -->
+		<action name="piReview_*" class="piReviewAction" method="{1}">
+			<result name="saveUI">/WEB-INF/jsp/pipeAction/pipeInstall/detail/PIReview.jsp</result>
+		</action>
+		
+		<!-- 压力管道安装安全质量监督检验记录 -->
+		<action name="piSafeCheck_*" class="piSafeCheckAction" method="{1}">
+			<result name="saveUI">/WEB-INF/jsp/pipeAction/pipeInstall/detail/PISafeCheck.jsp</result>
+		</action>
+		
+		<!-- 压力管道安装安全质量监督检验记录（续一） -->
+		<action name="piSafeCheck1_*" class="piSafeCheck1Action" method="{1}">
+			<result name="saveUI">/WEB-INF/jsp/pipeAction/pipeInstall/detail/PISafeCheck1.jsp</result>
+		</action>
+		
+		<!-- 压力管道安装安全质量监督检验记录（续二） -->
+		<action name="piSafeCheck2_*" class="piSafeCheck2Action" method="{1}">
+			<result name="saveUI">/WEB-INF/jsp/pipeAction/pipeInstall/detail/PISafeCheck2.jsp</result>
+		</action>
+		
+		<!-- 压力管道安装安全质量监督检验记录（续三） -->
+		<action name="piSafeCheck3_*" class="piSafeCheck3Action" method="{1}">
+			<result name="saveUI">/WEB-INF/jsp/pipeAction/pipeInstall/detail/PISafeCheck3.jsp</result>
+		</action>
+		
+		<!-- 管道全面检验 -->
+		<action name="pipeDetailMaintain_*" class="pipeDetailMaintainAction" method="{1}">
+			<result name="list">/WEB-INF/jsp/pipeAction/pipeMaintain/detail/list.jsp</result>
+			<result name="toFileList">/WEB-INF/jsp/pipeAction/pipeMaintain/detail/fileList.jsp</result>
+			<result name="toList" type="redirectAction">pipeDetailMaintain_list</result>
+			<result type="json" name="success"> 
+        		<param name="contentType">text/html</param> 
+      		</result> 
+		</action>
+		
+		<!-- 管道在线检验 -->
+		<action name="pipeOnlineMaintain_*" class="pipeOnlineMaintainAction" method="{1}">
+			<result name="list">/WEB-INF/jsp/pipeAction/pipeMaintain/online/list.jsp</result>
+			<result name="toFileList">/WEB-INF/jsp/pipeAction/pipeMaintain/online/fileList.jsp</result>
+			<result name="toList" type="redirectAction">pipeOnlineMaintain_list</result>
+			<result type="json" name="success"> 
+        		<param name="contentType">text/html</param> 
+      		</result> 
+		</action>
+		
+		<!-- 管道在线检验（1） -->
+		<action name="pipeOnlineThiTest_*" class="pipeOnlineThiTestAction" method="{1}">
+			<result name="saveUI">/WEB-INF/jsp/pipeAction/pipeMaintain/online/PipeOnlineThiTest.jsp</result>
+		</action>
+		
+		
+		<!-- 管道在线检验（2） -->
+		<action name="pipeOnlineSubTest_*" class="pipeOnlineSubTestAction" method="{1}">
+			<result name="saveUI">/WEB-INF/jsp/pipeAction/pipeMaintain/online/PipeOnlineSubTest.jsp</result>
+		</action>
+		
+		
+		<!-- 管道宏观检验 -->
+		<action name="pipeMicroTest_*" class="pipeMicroTestAction" method="{1}">
+			<result name="saveUI">/WEB-INF/jsp/pipeAction/pipeMaintain/detail/PipeMicroTest.jsp</result>
+		</action>
+		
+		<!-- 管道安全保护装置检查情况 -->
+		<action name="pipeSPDTest_*" class="pipeSPDTestAction" method="{1}">
+			<result name="saveUI">/WEB-INF/jsp/pipeAction/pipeMaintain/detail/PipeSPDTest.jsp</result>
+		</action>
+		
+		<!-- 管壁测厚检查 -->
+		<action name="pipeThiTest_*" class="pipeThiTestAction" method="{1}">
+			<result name="saveUI">/WEB-INF/jsp/pipeAction/pipeMaintain/detail/PipeThiTest.jsp</result>
+		</action>
+		
+		<!-- 管道安全等级评估 -->
+		<action name="pipeAssTable_*" class="pipeAssTableAction" method="{1}">
+			<result name="saveUI">/WEB-INF/jsp/pipeAction/pipeMaintain/detail/PipeAssTable.jsp</result>
+		</action>
+		
+		<!-- 管道硬度检查 -->
+		<action name="pipeHardTest_*" class="pipeHardTestAction" method="{1}">
+			<result name="saveUI">/WEB-INF/jsp/pipeAction/pipeMaintain/detail/PipeHardTest.jsp</result>
+		</action>
+		
+		<!-- 泄露性检查 -->
+		<action name="pipeLeakTest_*" class="pipeLeakTestAction" method="{1}">
+			<result name="saveUI">/WEB-INF/jsp/pipeAction/pipeMaintain/detail/PipeLeakTest.jsp</result>
+		</action>
+		
+		<!-- 金相分析 -->
+		<action name="pipeMetTest_*" class="pipeMetTestAction" method="{1}">
+			<result name="saveUI">/WEB-INF/jsp/pipeAction/pipeMaintain/detail/PipeMetTest.jsp</result>
+		</action>
+		
+		<!-- 压力检测 -->
+		<action name="pipePreTest_*" class="pipePreTestAction" method="{1}">
+			<result name="saveUI">/WEB-INF/jsp/pipeAction/pipeMaintain/detail/PipePreTest.jsp</result>
+		</action>
+		
+		<!-- 管道全面检验结论 -->
+		<action name="pipeVerification_*" class="pipeVerificationAction" method="{1}">
+			<result name="saveUI">/WEB-INF/jsp/pipeAction/pipeMaintain/detail/PipeVerification.jsp</result>
+		</action>
+		
+		<!-- 管道文件管理 -->
+		<action name="pipeMaintainDocument_*" class="pipeMaintainAction" method="{1}">
+			<result name="list">/WEB-INF/jsp/document/pipe/pipeMaintain/list.jsp</result>
+			<result name="toList" type="redirectAction">pipeMaintainDocument_list</result>
+		</action>
+		
+		<!-- 管道全面检验文件管理 -->
+		<action name="pipeDetailMaintainDocument_*" class="pipeDetailMaintainDocumentAction" method="{1}">
+			<result name="list">/WEB-INF/jsp/document/pipe/pipeMaintain/detail/list.jsp</result>
+			<result name="toList" type="redirectAction">pipeDetailMaintainDocument_list</result>
+			<result type="json" name="success"> 
+        		<param name="contentType">text/html</param> 
+      		</result> 
+		</action>
+		
+		<!-- 管道在线检验文件管理 -->
+		<action name="pipeOnlineMaintainDocument_*" class="pipeOnlineMaintainDocumentAction" method="{1}">
+			<result name="list">/WEB-INF/jsp/document/pipe/pipeMaintain/online/list.jsp</result>
+			<result name="toList" type="redirectAction">pipeOnlineMaintainDocument_list</result>
+			<result type="json" name="success"> 
+        		<param name="contentType">text/html</param> 
+      		</result> 
+		</action>
+		
+		
+		<!-- 管道安装文件管理 -->
+		<action name="pipeInstallDocument_*" class="pipeInstallDocumentAction" method="{1}">
+			<result name="list">/WEB-INF/jsp/document/pipe/install/list.jsp</result>
+			<result name="listFile">/WEB-INF/jsp/document/pipe/install/listFile.jsp</result>
+			<result name="toList" type="redirectAction">pipeInstallDocument_list</result>
+			<result type="json" name="success"> 
+        		<param name="contentType">text/html</param> 
+      		</result> 
+		</action>
+		
+		<!-- 容器基础信息管理 -->
+		<action name="vesselBasic_*" class="vesselBasicAction" method="{1}">
+			<result name="list">/WEB-INF/jsp/vesselAction/vesselBasic/list.jsp</result>
+			<result name="saveUI">/WEB-INF/jsp/vesselAction/vesselBasic/saveUI.jsp</result>
+			<result name="toList" type="redirectAction">vesselBasic_list</result>
+			<result name="toFileList">/WEB-INF/jsp/vesselAction/vesselBasic/fileList.jsp</result>
+			<result type="json" name="success"> 
+        		<param name="contentType">text/html</param> 
+      		</result> 
+		</action>
+		
+		<!--容器资料审查 -->
+		<action name="vesselInvestigation_*" class="vesselInvestigationAction" method="{1}"> 
+			<result name="list">/WEB-INF/jsp/vesselAction/vesselInvestigation/list.jsp</result>
+			<result name="companyUI">/WEB-INF/jsp/vesselAction/vesselInvestigation/companyUI.jsp</result>
+			<result name="vesselBasicUI" type="redirectAction">vesselInvestigation_list</result>
+			
+		</action>
+		
+		
+		<!-- 容器问题记载+容器检验记录添加 -->
+		<action name="vesselSchemeDetail_*" class="vesselSchemeDetailAction" method="{1}">
+			<result name="listRecord">/WEB-INF/jsp/vesselAction/vesselSchemeAction/listRecord.jsp</result>
+			<result name="saveUI">/WEB-INF/jsp/vesselAction/vesselSchemeAction/saveUI.jsp</result>
+			<result name="listProblem">/WEB-INF/jsp/vesselAction/vesselSchemeAction/listProblem.jsp</result>
+			<result name="toList" type="redirectAction">vesselInvestigation_list</result>
+			<result name="listDetail">/WEB-INF/jsp/vesselAction/vesselSchemeAction/list.jsp</result>
+			<result name="toListRecord" type="redirectAction">vesselSchemeDetail_listRecord?basicId=${basicId}</result>
+		</action>
+		
+		<!-- 容器管理 -->
+		<action name="vesselMaintain_*" class="vesselMaintainAction" method="{1}">
+			<result name="list">/WEB-INF/jsp/vesselAction/vesselMaintain/list.jsp</result>
+			<result name="toList" type="redirectAction">vesselMaintain_list</result>
+		</action>
+		
+		<!-- 容器定期检验 -->
+		<action name="vesselPeriodicalMaintain_*" class="vesselPeriodicalMaintainAction" method="{1}">
+			<result name="list">/WEB-INF/jsp/vesselAction/vesselMaintain/periodical/list.jsp</result>
+			<result name="toFileList">/WEB-INF/jsp/vesselAction/vesselMaintain/periodical/fileList.jsp</result>
+			<result name="toList" type="redirectAction">vesselPeriodicalMaintain_list</result>
+			<result type="json" name="success"> 
+        		<param name="contentType">text/html</param> 
+      		</result> 
+		</action>
+		
+		<!-- 附加检验记录 -->
+		<action name="vesselAddTest_*" class="vesselAddTestAction" method="{1}">
+			<result name="saveUI">/WEB-INF/jsp/vesselAction/vesselMaintain/periodical/VesselAddTest.jsp</result>
+		</action>
+		
+		<!-- 气密性试验记录-->
+		<action name="vesselAirTest_*" class="vesselAirTestAction" method="{1}">
+			<result name="saveUI">/WEB-INF/jsp/vesselAction/vesselMaintain/periodical/VesselAirTest.jsp</result>
+		</action>
+		
+		<!--压力容器宏观检验记录 -->
+		<action name="vesselMicroTest_*" class="vesselMicroTestAction" method="{1}">
+			<result name="saveUI">/WEB-INF/jsp/vesselAction/vesselMaintain/periodical/VesselMicroTest.jsp</result>
+		</action>
+		
+		<!--壁厚测定记录 -->
+		<action name="vesselThiTest_*" class="vesselThiTestAction" method="{1}">
+			<result name="saveUI">/WEB-INF/jsp/vesselAction/vesselMaintain/periodical/VesselThiTest.jsp</result>
+		</action>
+		
+		<!--壁厚校核记录-->
+		<action name="vesselThiCheck_*" class="vesselThiCheckAction" method="{1}">
+			<result name="saveUI">/WEB-INF/jsp/vesselAction/vesselMaintain/periodical/VesselThiCheck.jsp</result>
+		</action>
+		
+		<!--射线检测记录 -->
+		<action name="vesselRadioTest_*" class="vesselRadioTestAction" method="{1}">
+			<result name="saveUI">/WEB-INF/jsp/vesselAction/vesselMaintain/periodical/VesselRadioTest.jsp</result>
+		</action>
+		
+		<!--超声检测记录 -->
+		<action name="vesselUltrasonicTest_*" class="vesselUltrasonicTestAction" method="{1}">
+			<result name="saveUI">/WEB-INF/jsp/vesselAction/vesselMaintain/periodical/VesselUltrasonicTest.jsp</result>
+		</action>
+		
+		<!--衍射时差法（TOFD）超声检测记录 -->
+		<action name="vesselTOFDTest_*" class="vesselTOFDTestAction" method="{1}">
+			<result name="saveUI">/WEB-INF/jsp/vesselAction/vesselMaintain/periodical/VesselTOFDTest.jsp</result>
+		</action>
+		
+		<!--磁粉检测记录 -->
+		<action name="vesselMagneticTest_*" class="vesselMagneticTestAction" method="{1}">
+			<result name="saveUI">/WEB-INF/jsp/vesselAction/vesselMaintain/periodical/VesselMagneticTest.jsp</result>
+		</action>
+		
+		<!--渗透检测记录-->
+		<action name="vesselPermTest_*" class="vesselPermTestAction" method="{1}">
+			<result name="saveUI">/WEB-INF/jsp/vesselAction/vesselMaintain/periodical/VesselPermTest.jsp</result>
+		</action>
+		
+		<!--声发射检测记录-->
+		<action name="vesselSonciTest_*" class="vesselSonciTestAction" method="{1}">
+			<result name="saveUI">/WEB-INF/jsp/vesselAction/vesselMaintain/periodical/VesselSonciTest.jsp</result>
+		</action>
+		
+		<!--材料成分分析记录 -->
+		<action name="vesselMatTest_*" class="vesselMatTestAction" method="{1}">
+			<result name="saveUI">/WEB-INF/jsp/vesselAction/vesselMaintain/periodical/VesselMatTest.jsp</result>
+		</action>
+		
+		<!--硬度检测记录 -->
+		<action name="vesselHardTest_*" class="vesselHardTestAction" method="{1}">
+			<result name="saveUI">/WEB-INF/jsp/vesselAction/vesselMaintain/periodical/VesselHardTest.jsp</result>
+		</action>
+		
+		<!--金相分析记录 -->
+		<action name="vesselMetTest_*" class="vesselMetTestAction" method="{1}">
+			<result name="saveUI">/WEB-INF/jsp/vesselAction/vesselMaintain/periodical/VesselMetTest.jsp</result>
+		</action>
+		
+		<!--安全附件检验记录 -->
+		<action name="vesselSPDTest_*" class="vesselSPDTestAction" method="{1}">
+			<result name="saveUI">/WEB-INF/jsp/vesselAction/vesselMaintain/periodical/VesselSPDTest.jsp</result>
+		</action>
+		
+		<!--耐压试验记录 -->
+		<action name="vesselPreTest_*" class="vesselPreTestAction" method="{1}">
+			<result name="saveUI">/WEB-INF/jsp/vesselAction/vesselMaintain/periodical/VesselPreTest.jsp</result>
+		</action>
+		
+		<!--氨检漏试验记录 -->
+		<action name="vesselAmmoniaTest_*" class="vesselAmmoniaTestAction" method="{1}">
+			<result name="saveUI">/WEB-INF/jsp/vesselAction/vesselMaintain/periodical/VesselAmmoniaTest.jsp</result>
+		</action>
+		
+		<!--氦、卤素检漏试验记录-->
+		<action name="vesselHeTest_*" class="vesselHeTestAction" method="{1}">
+			<result name="saveUI">/WEB-INF/jsp/vesselAction/vesselMaintain/periodical/VesselHeTest.jsp</result>
+		</action>
+		
+		<!--搪玻璃压力容器搪玻璃层定期检验记录 -->
+		<action name="vesselGlassTest_*" class="vesselGlassTestAction" method="{1}">
+			<result name="saveUI">/WEB-INF/jsp/vesselAction/vesselMaintain/periodical/VesselGlassTest.jsp</result>
+		</action>
+		
+		<!--石墨压力容器定期检验记录附页 -->
+		<action name="vesselGraphiteTest_*" class="vesselGraphiteTestAction" method="{1}">
+			<result name="saveUI">/WEB-INF/jsp/vesselAction/vesselMaintain/periodical/VesselGraphiteTest.jsp</result>
+		</action>
+		
+		<!--石墨衬里压力容器定期检验记录附页 -->
+		<action name="vesselGraphiteLinerTest_*" class="vesselGraphiteLinerTestAction" method="{1}">
+			<result name="saveUI">/WEB-INF/jsp/vesselAction/vesselMaintain/periodical/VesselGraphiteLinerTest.jsp</result>
+		</action>
+		
+		<!--玻璃钢压力容器定期检验记录附页 -->
+		<action name="vesselGlassSteelTest_*" class="vesselGlassSteelTestAction" method="{1}">
+			<result name="saveUI">/WEB-INF/jsp/vesselAction/vesselMaintain/periodical/VesselGlassSteelTest.jsp</result>
+		</action>
+		
+		<!--玻璃钢衬里压力容器定期检验记录附页 -->
+		<action name="vesselGlassSteelLinerTest_*" class="vesselGlassSteelLinerTestAction" method="{1}">
+			<result name="saveUI">/WEB-INF/jsp/vesselAction/vesselMaintain/periodical/VesselGlassSteelLinerTest.jsp</result>
+		</action>
+		
+		
+		<!--塑料压力容器定期检验记录附页 -->
+		<action name="vesselPlasticTest_*" class="vesselPlasticTestAction" method="{1}">
+			<result name="saveUI">/WEB-INF/jsp/vesselAction/vesselMaintain/periodical/VesselPlasticTest.jsp</result>
+		</action>
+		
+		<!--塑料压力容器定期检验记录附页 -->
+		<action name="vesselPlasticLinerTest_*" class="vesselPlasticLinerTestAction" method="{1}">
+			<result name="saveUI">/WEB-INF/jsp/vesselAction/vesselMaintain/periodical/VesselPlasticLinerTest.jsp</result>
+		</action>
+		
+		<!--容器定期检验结论（必填） -->
+		<action name="vesselConclusionTest_*" class="vesselConclusionTestAction" method="{1}">
+			<result name="saveUI">/WEB-INF/jsp/vesselAction/vesselMaintain/periodical/VesselConclusionTest.jsp</result>
+		</action>
+		
+		<!-- 容器文件管理 -->
+		<action name="vesselMaintainDocument_*" class="vesselMaintainAction" method="{1}">
+			<result name="list">/WEB-INF/jsp/document/vessel/list.jsp</result>
+			<result name="toList" type="redirectAction">vesselMaintainDocument_list</result>
+		</action>
+		
+		<!-- 容器定期检验文件管理 -->
+		<action name="vesselPeriodicalMaintainDocument_*" class="vesselPeriodicalMaintainDocumentAction" method="{1}">
+			<result name="list">/WEB-INF/jsp/document/vessel/periodical/list.jsp</result>
+			<result name="toList" type="redirectAction">vesselPeriodicalMaintainDocument_list</result>
+			<result type="json" name="success"> 
+        		<param name="contentType">text/html</param> 
+      		</result> 
+		</action>
+		
+		
+		<!-- 容器年度检验 -->
+		<action name="vesselAnnualMaintain_*" class="vesselAnnualMaintainAction" method="{1}">
+			<result name="list">/WEB-INF/jsp/vesselAction/vesselMaintain/annual/list.jsp</result>
+			<result name="toFileList">/WEB-INF/jsp/vesselAction/vesselMaintain/annual/fileList.jsp</result>
+			<result name="toList" type="redirectAction">vesselAnnualMaintain_list</result>
+			<result type="json" name="success"> 
+        		<param name="contentType">text/html</param> 
+      		</result> 
+		</action>
+		
+		<!--容器定期检验结论（必填） -->
+		<action name="vesselAnnualConclusionTest_*" class="vesselAnnualConclusionTestAction" method="{1}">
+			<result name="saveUI">/WEB-INF/jsp/vesselAction/vesselMaintain/annual/VesselAnnualConclusionTest.jsp</result>
+		</action>
+		
+		<!--压力容器年度检查记录附页 -->
+		<action name="vesselAnnualTest_*" class="vesselAnnualTestAction" method="{1}">
+			<result name="saveUI">/WEB-INF/jsp/vesselAction/vesselMaintain/annual/VesselAnnualTest.jsp</result>
+		</action>
+		
+		<!-- 容器年度检验文件管理 -->
+		<action name="vesselAnnualMaintainDocument_*" class="vesselAnnualMaintainDocumentAction" method="{1}">
+			<result name="list">/WEB-INF/jsp/document/vessel/annual/list.jsp</result>
+			<result name="toList" type="redirectAction">vesselAnnualMaintainDocument_list</result>
+			<result type="json" name="success"> 
+        		<param name="contentType">text/html</param> 
+      		</result> 
+		</action>
+		
+		<!-- 容器验收检验 -->
+		<action name="vesselCheckMaintain_*" class="vesselCheckMaintainAction" method="{1}">
+			<result name="list">/WEB-INF/jsp/vesselAction/vesselMaintain/check/list.jsp</result>
+			<result name="toFileList">/WEB-INF/jsp/vesselAction/vesselMaintain/check/fileList.jsp</result>
+			<result name="toList" type="redirectAction">vesselCheckMaintain_list</result>
+			<result type="json" name="success"> 
+        		<param name="contentType">text/html</param> 
+      		</result> 
+		</action>
+		
+		<!--容器验收检验结论（必填） -->
+		<action name="vesselCheckConclusionTest_*" class="vesselCheckConclusionTestAction" method="{1}">
+			<result name="saveUI">/WEB-INF/jsp/vesselAction/vesselMaintain/check/VesselCheckConclusionTest.jsp</result>
+		</action>
+		
+		<!--压力容器资料审查及外观检查记录 -->
+		<action name="vesselCheckTest_*" class="vesselCheckTestAction" method="{1}">
+			<result name="saveUI">/WEB-INF/jsp/vesselAction/vesselMaintain/check/VesselCheckTest.jsp</result>
+		</action>
+		
+		<!-- 容器年度检验文件管理 -->
+		<action name="vesselCheckMaintainDocument_*" class="vesselCheckMaintainDocumentAction" method="{1}">
+			<result name="list">/WEB-INF/jsp/document/vessel/check/list.jsp</result>
+			<result name="toList" type="redirectAction">vesselCheckMaintainDocument_list</result>
+			<result type="json" name="success"> 
+        		<param name="contentType">text/html</param> 
+      		</result> 
+		</action>
+		
+		<!-- 容器过期显示 -->
+		<action name="vesselExpire_*" class="vesselExpireAction" method="{1}">
+			<result name="list">/WEB-INF/jsp/vesselAction/vesselExpire/list.jsp</result>
+			<result name="toList" type="redirectAction">vesselExpire_list</result>
+		</action>
+		
+		<!-- 管道过期显示 -->
+		<action name="pipeExpire_*" class="pipeExpireAction" method="{1}">
+			<result name="list">/WEB-INF/jsp/pipeAction/pipeExpire/list.jsp</result>
+			<result name="toList" type="redirectAction">pipeExpire_list</result>
+		</action>
+		
+		<!-- 容器月度检验 -->
+		<action name="vesselMonthlyInspection_*" class="vesselMonthlyInspectionAction" method="{1}">
+			<result name="list">/WEB-INF/jsp/vesselAction/vesselMonthlyInspection/list.jsp</result>
+			<result name="toList" type="redirectAction">vesselMonthlyInspection_list?vesselBasic.v_Product_ID=${vesselBasic.v_Product_ID}</result>
+			<result name="saveUI">/WEB-INF/jsp/vesselAction/vesselMonthlyInspection/saveUI.jsp</result>
+			<result type="json" name="success"> 
+        		<param name="contentType">text/html</param> 
+      		</result> 
+		</action>
+		
+		<!-- 管道月度检验 -->
+		<action name="pipeMonthlyInspection_*" class="pipeMonthlyInspectionAction" method="{1}">
+			<result name="list">/WEB-INF/jsp/pipeAction/pipeMonthlyInspection/list.jsp</result>
+			<result name="toList" type="redirectAction">pipeMonthlyInspection_list?pipeBasic.p_Sys=${pipeBasic.p_Sys}</result>
+			<result name="saveUI">/WEB-INF/jsp/pipeAction/pipeMonthlyInspection/saveUI.jsp</result>
+			<result type="json" name="success"> 
+        		<param name="contentType">text/html</param> 
+      		</result> 
+		</action>
+		
+    </package>
+
+    <!-- Add packages here -->
+	
+</struts>
